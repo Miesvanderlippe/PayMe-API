@@ -5,6 +5,7 @@
 	- Starttransaction 
 		- Do a call
 		- Database interaction
+			- After starting transaction
 
 */
 
@@ -43,7 +44,7 @@ class Payme extends Crypt{
 		return $replacedURL;
 	}
 
-	public static function StartTransaction($amount, $bankID, $purchaseID, $description, $returnURL, $failURL){
+	public static function StartTransactionURL($amount, $bankID, $purchaseID, $description, $returnURL, $failURL){
 
 		$returnURL	 = self::SpecialUrlEncode($returnURL);
 		$failURL	 = self::SpecialUrlEncode($failURL);
