@@ -12,9 +12,9 @@ require_once(APPPATH . "classes/crypt.php");
 
 class Payme extends Crypt{
 
-	protected static $email	 = "71989@ict-lab.nl";
-	protected static $pmid	 = "86nmb6fonm";
-	protected static $pmkey	 = "ikjw6gux6954m3cjgaj5d77rs70ncbey";
+	const email	 = "71989@ict-lab.nl";
+	const pmid		 = "86nmb6fonm";
+	const pmkey	 = "ikjw6gux6954m3cjgaj5d77rs70ncbey";
 	
 	private function __construct(){}
 
@@ -22,7 +22,7 @@ class Payme extends Crypt{
 
 		$jsonurl	 = "http://payme.ict-lab.nl/api/banklist/";
 		$json  		 = file_get_contents($jsonurl);
-		$banklist 	 = json_decode($json);
+		$banklist 	 = json_decode($json, TRUE);
 
 		return $banklist;
 	}
@@ -45,12 +45,14 @@ class Payme extends Crypt{
 
 	public static function StartTransaction($amount, $bankID, $purchaseID, $description, $returnURL, $failURL){
 
-		$returnURL	 = Self::SpecialUrlEncode($returnURL);
-		$failURL	 = Self::SpecialUrlEncode($failURL);
+		$returnURL	 = self::SpecialUrlEncode($returnURL);
+		$failURL	 = self::SpecialUrlEncode($failURL);
 
-		$verifcationKey = sha1(Self::pmid . Self::pmkey . $purchaseID . $amount);
+		$verifcationKey = sha1(self::pmid . self::pmkey . $purchaseID . $amount);
 
-		$url = "http://payme.ict-lab.nl/api/starttrans/" . Self::pmid . "/" . Self::pmkey . "/" . $amount . "/" . $bankID . "/" . $purchaseID . "/" . $description . "/" . $returnURL . "/" . $failURL. "/" . $verifcationKey . "/";
+		$url = "http://payme.ict-lab.nl/api/starttrans/" . self::pmid . "/" . self::pmkey . "/" . $amount . "/" . $bankID . "/" . $purchaseID . "/" . $description . "/" . $returnURL . "/" . $failURL. "/" . $verifcationKey . "/";
+
+		return $url;
 	}
 
 	public static function GetTransactionStatus(){
