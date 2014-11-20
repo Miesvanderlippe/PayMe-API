@@ -40,8 +40,8 @@ class Payme extends Crypt{
 	public static function GetBankList(){
 
 		$jsonurl	 = "http://payme.ict-lab.nl/api/banklist/";
-		$json  		 = file_get_contents($jsonurl);
-		$banklist 	 = self::CurlGet($json, TRUE);
+		$json  		 = self::CurlGet($jsonurl);
+		$banklist 	 = json_decode($json, TRUE);
 
 		return $banklist;
 	}
