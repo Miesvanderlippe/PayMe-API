@@ -1,14 +1,5 @@
 <?php
 
-/*
-	TODO : 
-	- Starttransaction 
-		- Do a call
-		- Database interaction
-			- After starting transaction
-
-*/
-
 require_once(APPPATH . "classes/crypt.php");
 
 class Payme extends Crypt{
