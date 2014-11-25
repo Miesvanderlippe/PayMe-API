@@ -69,6 +69,8 @@ class Payme{
 
 	public static function StartTransaction($amount, $bankID, $purchaseID, $description, $returnURL, $failURL){
 
+		$amount 	 = preg_replace("/[^0-9]/", "", $amount);
+
 		$returnURL	 = self::SpecialUrlEncode($returnURL);
 		$failURL	 = self::SpecialUrlEncode($failURL);
 
