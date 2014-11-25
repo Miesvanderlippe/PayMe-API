@@ -62,25 +62,33 @@ class Payme extends Crypt{
 		return $replacedURL;
 	}
 
-	public static function StartTransactionURL($amount, $bankID, $purchaseID, $description, $returnURL, $failURL){
+	public static function StartTransaction($amount, $bankID, $purchaseID, $description, $returnURL, $failURL){
 
 		$returnURL	 = self::SpecialUrlEncode($returnURL);
 		$failURL	 = self::SpecialUrlEncode($failURL);
 
 		$verifcationKey = sha1(self::pmid . self::pmkey . $purchaseID . $amount);
 
-		$url = "http://payme.ict-lab.nl/api/starttrans/" . self::pmid . "/" . self::pmkey . "/" . $amount . "/" . $bankID . "/" . $purchaseID . "/" . $description . "/" . $returnURL . "/" . $failURL. "/" . $verifcationKey . "/";
+		$url = 'http://payme.ict-lab.nl/api/starttrans/' . self::pmid . '/' . self::pmkey . '/' . $amount . '/' . $bankID . '/' . $purchaseID . '/' . urlencode($description) . '/' . $returnURL . '/' . $failURL. '/' . $verifcationKey . '/';
 
-		return $url;
+		$data = self::CurlGet($url);
+		$data = json_decode($data, true);
+
+		if($data['sha1'] == $verifcationKey)
+			$data['keyMatch'] = true;
+		else
+			$data['keyMatch'] = false;
+
+		return $data;
 	}
 
 	public static function GetTransactionStatus($transactionID, $sha1){
 
-		$URL = 'http://payme.ict-lab.nl/api/statusrequest/PWiRkJiv/2a37726251599c6ad50ca0aec02e09e02bd3c3f4';
+		$url = 'http://payme.ict-lab.nl/api/statusrequest/';
 
-		$URL = $URL . $transactionID . '/' . $sha1 . '/'; 
+		$url = $url . $transactionID . '/' . $sha1 . '/'; 
 
-		$data = self::CurlGet($URL);
+		$data = self::CurlGet($url);
 
 		$dataArray = json_decode($data, true);
 
