@@ -16,9 +16,7 @@
  * limitations under the License.
  */
 
-require_once(APPPATH . "classes/crypt.php");
-
-class Payme extends Crypt{
+class Payme{
 
 	const email	 = "71989@ict-lab.nl";
 	const pmid	 = "86nmb6fonm";
