@@ -79,6 +79,8 @@ class Payme extends Crypt{
 		else
 			$data['keyMatch'] = false;
 
+		$data['fwdurl'] = urldecode($data['fwdurl']);
+
 		return $data;
 	}
 
@@ -89,9 +91,10 @@ class Payme extends Crypt{
 		$url = $url . $transactionID . '/' . $sha1 . '/'; 
 
 		$data = self::CurlGet($url);
+		$data = json_decode($data, true);
 
-		$dataArray = json_decode($data, true);
+		$data['keymatch'] = $data['sha1'] == $sha1;
 
-		return $dataArray;
+		return $data;
 	}
 }
