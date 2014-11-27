@@ -81,10 +81,7 @@ class Payme{
 		$data = self::CurlGet($url);
 		$data = json_decode($data, true);
 
-		if($data['sha1'] == $verifcationKey)
-			$data['keyMatch'] = true;
-		else
-			$data['keyMatch'] = false;
+		$data['keyMatch'] = $data['sha1'] == $verifcationKey;
 
 		$data['fwdurl'] = urldecode($data['fwdurl']);
 
