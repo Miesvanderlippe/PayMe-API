@@ -32,7 +32,7 @@
         }
 
         /**
-         * @return mixed
+         * @return json array of banks (id, name)
          */
         public static function GetBankList() {
 
@@ -46,7 +46,7 @@
         /**
          * @param $url
          *
-         * @return mixed
+         * @return CURL data
          */
         private static function CurlGet($url) {
 
@@ -69,7 +69,7 @@
         /**
          * @param $url
          *
-         * @return mixed
+         * @return decoded url
          */
         public static function SpecialUrlDecode($url) {
 
@@ -80,6 +80,19 @@
         }
 
         /**
+         * @param $url
+         *
+         * @return encoded url
+         */
+        public static function SpecialUrlEncode($url) {
+
+            $replacedURL = str_replace("/", "#", $url);
+            $encodedURL  = urlencode($replacedURL);
+
+            return $encodedURL;
+        }
+
+        /**
          * @param $amount
          * @param $bankID
          * @param $purchaseID
@@ -87,7 +100,7 @@
          * @param $returnURL
          * @param $failURL
          *
-         * @return mixed
+         * @return array with result and other data
          */
         public static function StartTransaction($amount, $bankID, $purchaseID, $description, $returnURL, $failURL) {
 
@@ -111,23 +124,10 @@
         }
 
         /**
-         * @param $url
-         *
-         * @return string
-         */
-        public static function SpecialUrlEncode($url) {
-
-            $replacedURL = str_replace("/", "#", $url);
-            $encodedURL  = urlencode($replacedURL);
-
-            return $encodedURL;
-        }
-
-        /**
          * @param $transactionID
          * @param $sha1
          *
-         * @return mixed
+         * @return transaction status in array
          */
         public static function GetTransactionStatus($transactionID, $sha1) {
 
